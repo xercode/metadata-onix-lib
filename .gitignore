@@ -1,0 +1,8 @@
+.idea/
+composer.lock
+vendor/
+###> phpunit ###
+/.phpunit
+/.phpunit.result.cache
+phpunit.xml
+###< phpunit ###
