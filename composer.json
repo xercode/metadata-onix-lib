@@ -17,7 +17,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "xeBook\\Metadata\\Onix\\": "tests/"
+            "xeBook\\Metadata\\Onix\\Test\\": "tests/"
         }
     }
 }
