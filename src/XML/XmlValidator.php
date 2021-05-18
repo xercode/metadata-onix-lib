@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace xeBook\Metadata\Onix\XML;
 
+use InvalidArgumentException;
+use DOMDocument;
+
 /**
  * The Class XmlValidator validate one ONIX file
  *
@@ -19,13 +22,15 @@ namespace xeBook\Metadata\Onix\XML;
  */
 final class XmlValidator
 {
+    private const file_type = "text/xml";
+
     private string $xsdFile;
 
     /**
      * XmlValidator constructor.
      * @param string $xsdFile
      */
-    public function __construct(string $xsdFile)
+    public function __construct(string $xsdFile = __DIR__.'/resources/reference_default.xsd')
     {
         $this->xsdFile = $xsdFile;
     }
@@ -37,7 +42,7 @@ final class XmlValidator
      */
     public static function create():XmlValidator
     {
-        throw new \RuntimeException('This method is not implemented yet.');
+        return new self(__DIR__.'/resources/reference_default.xsd');
     }
 
     /**
@@ -47,7 +52,7 @@ final class XmlValidator
      */
     public static function short():XmlValidator
     {
-        throw new \RuntimeException('This method is not implemented yet.');
+        return new self(__DIR__.'/resources/reference_short.xsd');
     }
 
     /**
@@ -58,6 +63,17 @@ final class XmlValidator
      */
     public function isValid(string $inputFile):bool
     {
-        return false;
+        if (!file_exists($inputFile)) {
+            return false;
+        }
+
+        if (self::file_type !== \mime_content_type($inputFile)) {
+            return false;
+        }
+
+        $document = new DOMDocument();
+        $document->load($inputFile);
+
+        return $document->schemaValidate($this->xsdFile);
     }
 }

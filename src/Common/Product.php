@@ -14,4 +14,9 @@ namespace xeBook\Metadata\Onix\Common;
 
 final class Product
 {
+    public static function read(\SimpleXMLElement $xml):Product
+    {
+        // TODO complete
+        return new self();
+    }
 }
